@@ -1,4 +1,4 @@
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~config/nvim/plugged')
 "Plugin
 	"Theme
 		Plug 'joshdick/onedark.vim'
@@ -15,10 +15,10 @@ call plug#begin('~/.config/nvim/plugged')
 	"File search
 		Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 		Plug 'junegunn/fzf.vim'
-	"Ai Complete
-		Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	"Terminal
 		Plug 'voldikss/vim-floaterm'
+    "Auto Braket
+		Plug 'jiangmiao/auto-pairs'
 	"Background Image
 		"Plug 'tribela/vim-transparent'
 call plug#end()
@@ -56,49 +56,6 @@ call plug#end()
 		let g:airline#extensions#tabline#left_sep = ' '
 		let g:airline#extensions#tabline#left_alt_sep = '|'
 		let g:airline#extensions#tabline#enabled = 1	
-	"Coc more
-		" May need for vim (not neovim) since coc.nvim calculate byte offset by count
-		" utf-8 byte sequence.
-		set encoding=utf-8
-		" Some servers have issues with backup files, see #649.
-		set nobackup
-		set nowritebackup
-
-		" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-		" delays and poor user experience.
-		set updatetime=300
-
-		" Always show the signcolumn, otherwise it would shift the text each time
-		" diagnostics appear/become resolved.
-		set signcolumn=yes
-
-		" Use tab for trigger completion with characters ahead and navigate.
-		" NOTE: There's always complete item selected by default, you may want to enable
-		" no select by `"suggest.noselect": true` in your configuration file.
-		" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-		" other plugin before putting this into your config.
-		inoremap <silent><expr> <TAB>
-        \ coc#pum#visible() ? coc#pum#next(1) :
-        \ CheckBackspace() ? "\<Tab>" :
-        \ coc#refresh()
-		inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-		" Make <CR> to accept selected completion item or notify coc.nvim to format
-		" <C-g>u breaks current undo, please make your own choice.
-		inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-		function! CheckBackspace() abort
-		  let col = col('.') - 1
-		  return !col || getline('.')[col - 1]  =~# '\s'
-		endfunction
-
-		" Use <c-space> to trigger completion.
-		if has('nvim')
-	    	inoremap <silent><expr> <c-space> coc#refresh()
-		else
-		    inoremap <silent><expr> <c-@> coc#refresh()
-		endif
 	"Terminal more
 		"Config Terminal	
 			let g:floaterm_position="topright"
@@ -117,13 +74,17 @@ call plug#end()
 	set number
 	set encoding=UTF-8	
 	set mouse=a
-	"Set tab=4space
-	set tabstop=4
-	set softtabstop=0 noexpandtab
+	"set tab=4space
+    set tabstop=4
+	set softtabstop=4
 	set shiftwidth=4
+	set expandtab
 	"Number line hightlight
-	set cursorlineopt=number
+	set nomodeline
 	set cursorline
+	au BufRead *.py
+    \ set shiftwidth=4|
+	\ set cursorlineopt=number
 "Map" 	
 	"Save file
 		imap <C-s> <Esc>:w<CR>	
@@ -146,6 +107,6 @@ call plug#end()
 		autocmd filetype python nnoremap <F4> :w <bar> exec '!python3 '.shellescape('%')<CR>
 		autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 	"C++ fast init
-		nnoremap <f2> <Esc>i#include <bits/stdc++.h><CR>#include <cstdio><CR>using namespace std;<CR><CR>int main(){<CR>//freopen(".cpp","r",stdin)<CR>freopen(".cpp","w",stdout)<CR><Backspace><Backspace><CR>return 0;<CR><Backspace><CR>}
+		nnoremap <f2> <Esc>i#include <bits/stdc++.h><CR>#define FOR(i,l,r) for (int i=l;i<=r;i++)<CR>#define FOD(i,r,l) for (int i=r;i>=l;i--)<CR>#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);<CR>#define vt vector<CR>#define ll long long<CR>#define pb push_back<CR>using namespace std;<CR><CR>int main(){<CR>//freopen(".INP","r",stdin)<CR>freopen(".OUT","w",stdout)<CR><Backspace><Backspace><CR><CR>return 0;<CR><Backspace><CR>}
 	"Tab in insert mode 
-		:inoremap <S-Tab> <C-Q><Tab>
+		:inoremap <S-Tab> <C-Q><Tab>w
