@@ -1,4 +1,4 @@
-call plug#begin('~config/nvim/plugged')
+call plug#begin('.config/nvim/plugged')
 "Plugin
 	"Theme
 		Plug 'joshdick/onedark.vim'
